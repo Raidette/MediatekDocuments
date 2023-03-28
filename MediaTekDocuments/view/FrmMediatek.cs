@@ -1316,6 +1316,13 @@ namespace MediaTekDocuments.view
 
             cbxModSuiviCommandeLivre.Enabled = false;
             btnModSuiviCommandeLivre.Enabled = false;
+
+            txbAffichageTitreCommandeLivres.Text = "";
+            txbAffichageAuteurCommandeLivres.Text = "";
+            txbAffichageCollectionCommandeLivres.Text = "";
+            txbAffichageGenreCommandeLivres.Text = "";
+            txbAffichagePublicCommandeLivres.Text = "";
+            txbAffichageRayonCommandeLivres.Text = "";
         }
 
         /// <summary>
@@ -1344,6 +1351,13 @@ namespace MediaTekDocuments.view
                 {
                     List<Commande> commandes = new List<Commande>(controller.GetCommandes(livre.Id));
                     RemplirCommandeLivresListe(commandes);
+
+                    txbAffichageTitreCommandeLivres.Text = livre.Titre;
+                    txbAffichageAuteurCommandeLivres.Text = livre.Auteur;
+                    txbAffichageCollectionCommandeLivres.Text = livre.Collection;
+                    txbAffichageGenreCommandeLivres.Text = livre.Genre;
+                    txbAffichagePublicCommandeLivres.Text = livre.Public;
+                    txbAffichageRayonCommandeLivres.Text = livre.Rayon;
                 }
                 else
                 {
@@ -1512,6 +1526,13 @@ namespace MediaTekDocuments.view
                 {
                     List<Commande> commandes = new List<Commande>(controller.GetCommandes(dvd.Id));
                     RemplirCommandeDvdListe(commandes);
+
+                    txbAffichageTitreCommandeDvd.Text = dvd.Titre;
+                    txbAffichageDureeCommandeDvd.Text = dvd.Duree.ToString();
+                    txbAffichageRealisateurCommandeDvd.Text = dvd.Realisateur;
+                    txbAffichageGenreCommandeDvd.Text = dvd.Genre;
+                    txbAffichagePublicCommandeDvd.Text = dvd.Public;
+                    txbAffichageRayonCommandeDvd.Text = dvd.Rayon;
                 }
                 else
                 {
@@ -1615,6 +1636,46 @@ namespace MediaTekDocuments.view
             controller.DeleteCommande(commande);
 
             btnRechercheCommandeDVD.PerformClick();
+        }
+
+        private void label72_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label73_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label77_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label76_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label75_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

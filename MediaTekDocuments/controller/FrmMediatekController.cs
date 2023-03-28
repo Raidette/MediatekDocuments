@@ -87,6 +87,26 @@ namespace MediaTekDocuments.controller
             return access.GetExemplairesRevue(idDocuement);
         }
 
+        public List<Commande> GetCommandes(string idDocument)
+        {
+            return access.GetCommandes(idDocument);
+        }
+
+        public bool CreerCommande(Commande commande)
+        {
+            return access.CreerCommande(commande);
+        }
+
+        public bool UpdateSuivi(string suivi, string id)
+        {
+            return access.updateSuivi(suivi, id);
+        }
+
+        public bool DeleteCommande(Commande commande)
+        {
+            return access.DeleteCommande(commande);
+        }
+
         /// <summary>
         /// Crée un exemplaire d'une revue dans la bdd
         /// </summary>

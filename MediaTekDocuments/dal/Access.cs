@@ -36,6 +36,12 @@ namespace MediaTekDocuments.dal
         private const string POST = "POST";
         /// <summary>
         /// méthode HTTP pour update
+        /// </summary>
+        private const string PUT = "PUT";
+        /// <summary>
+        /// méthode HTTP pour update
+        /// </summary>
+        private const string DELETE = "DELETE";
 
         /// <summary>
         /// Méthode privée pour créer un singleton
@@ -162,6 +168,72 @@ namespace MediaTekDocuments.dal
         }
 
         /// <summary>
+        /// Récupère la liste des commandes d'un document.
+        /// </summary>
+        /// <param name="idDocument"></param>
+        /// <returns></returns>
+        public List<Commande> GetCommandes(string idDocument)
+        {
+            List<Commande> lesCommandes = TraitementRecup<Commande>(GET, "commande/" + idDocument);
+            return lesCommandes;
+        }
+        
+        public bool CreerCommande(Commande commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
+
+            try
+            {
+                List<Commande> liste = TraitementRecup<Commande>(POST, "commande/" + jsonCommande);
+
+                return (liste != null);
+            }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool updateSuivi(string suivi, string id)
+        {
+            //String jsonUpdate = JsonConvert.SerializeObject(suivi, new CustomDateTimeConverter());
+
+            try
+            {
+                Console.WriteLine($"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
+                List<Commande> liste = TraitementRecup<Commande>(PUT, $"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
+
+                return (liste != null);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool DeleteCommande(Commande commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande.Id, new CustomDateTimeConverter());
+
+            try
+            {
+                List<Commande> liste = TraitementRecup<Commande>(DELETE, $"commande/{{\"id\":\"{commande.Id}\"}}");
+
+                return (liste != null);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Traitement de la récupération du retour de l'api, avec conversion du json en liste pour les select (GET)
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -175,7 +247,7 @@ namespace MediaTekDocuments.dal
             {
                 JObject retour = api.RecupDistant(methode, message);
                 // extraction du code retourné
-                String code = (String)retour["code"];
+                    String code = (String)retour["code"];
                 if (code.Equals("200"))
                 {
                     // dans le cas du GET (select), récupération de la liste d'objets
@@ -192,7 +264,7 @@ namespace MediaTekDocuments.dal
                 }
             }catch(Exception e)
             {
-                Console.WriteLine("Erreur lors de l'accès à l'API : "+e.Message);
+                Console.WriteLine("Erreur lors de l'accès à l'API : "+e);
                 Environment.Exit(0);
             }
             return liste;

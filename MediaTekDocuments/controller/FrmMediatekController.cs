@@ -76,6 +76,11 @@ namespace MediaTekDocuments.controller
             return access.GetAllPublics();
         }
 
+        public List<Abonnement> GetAllAbonnements()
+        {
+            return access.GetAllAbonnements();
+        }
+
 
         /// <summary>
         /// récupère les exemplaires d'une revue
@@ -87,12 +92,12 @@ namespace MediaTekDocuments.controller
             return access.GetExemplairesRevue(idDocuement);
         }
 
-        public List<Commande> GetCommandes(string idDocument)
+        public List<CommandeDocument> GetCommandes(string idDocument)
         {
             return access.GetCommandes(idDocument);
         }
 
-        public bool CreerCommande(Commande commande)
+        public bool CreerCommande(CommandeDocument commande)
         {
             return access.CreerCommande(commande);
         }
@@ -105,6 +110,21 @@ namespace MediaTekDocuments.controller
         public bool DeleteCommande(Commande commande)
         {
             return access.DeleteCommande(commande);
+        }
+
+        public List<Abonnement> GetCommandesRevues(string idRevue)
+        {
+            return access.GetCommandesRevues(idRevue);
+        }
+
+        public bool CreerAbonnement(Abonnement abonnement)
+        {
+            return access.CreerAbonnement(abonnement);
+        }
+
+        public bool DeleteAbonnement(Abonnement abonnement)
+        {
+            return access.DeleteAbonnement(abonnement);
         }
 
         /// <summary>

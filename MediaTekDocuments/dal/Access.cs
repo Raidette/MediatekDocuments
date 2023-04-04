@@ -135,6 +135,13 @@ namespace MediaTekDocuments.dal
             return lesRevues;
         }
 
+        public List<Abonnement> GetAllAbonnements()
+        {
+            List<Abonnement> lesAbos = TraitementRecup<Abonnement>(GET, "abonnements");
+            return lesAbos;
+
+        }
+
 
         /// <summary>
         /// Retourne les exemplaires d'une revue
@@ -172,19 +179,19 @@ namespace MediaTekDocuments.dal
         /// </summary>
         /// <param name="idDocument"></param>
         /// <returns></returns>
-        public List<Commande> GetCommandes(string idDocument)
+        public List<CommandeDocument> GetCommandes(string idDocument)
         {
-            List<Commande> lesCommandes = TraitementRecup<Commande>(GET, "commande/" + idDocument);
+            List<CommandeDocument> lesCommandes = TraitementRecup<CommandeDocument>(GET, "commande/" + idDocument);
             return lesCommandes;
         }
         
-        public bool CreerCommande(Commande commande)
+        public bool CreerCommande(CommandeDocument commande)
         {
             String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
 
             try
             {
-                List<Commande> liste = TraitementRecup<Commande>(POST, "commande/" + jsonCommande);
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(POST, "commande/" + jsonCommande);
 
                 return (liste != null);
             }
@@ -203,7 +210,7 @@ namespace MediaTekDocuments.dal
             try
             {
                 Console.WriteLine($"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
-                List<Commande> liste = TraitementRecup<Commande>(PUT, $"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(PUT, $"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
 
                 return (liste != null);
             }
@@ -221,7 +228,49 @@ namespace MediaTekDocuments.dal
 
             try
             {
-                List<Commande> liste = TraitementRecup<Commande>(DELETE, $"commande/{{\"id\":\"{commande.Id}\"}}");
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, $"commande/{{\"id\":\"{commande.Id}\"}}");
+
+                return (liste != null);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public List<Abonnement> GetCommandesRevues(string idRevue)
+        {
+            List<Abonnement> lesCommandes = TraitementRecup<Abonnement >(GET, "commandeRevue/" + idRevue);
+            return lesCommandes;
+        }
+
+        public bool CreerAbonnement(Abonnement abonnement)
+        {
+            String jsonAbo = JsonConvert.SerializeObject(abonnement, new CustomDateTimeConverter());
+
+            try
+            {
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(POST, "commandeRevue/" + jsonAbo);
+
+                return (liste != null);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool DeleteAbonnement(Abonnement abonnement)
+        {
+            String jsonAbo = JsonConvert.SerializeObject(abonnement.Id, new CustomDateTimeConverter());
+
+            try
+            {
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, $"abonnement/{{\"Id\":\"{abonnement.Id}\"}}");
 
                 return (liste != null);
             }

@@ -24,10 +24,11 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Constructeur : création du contrôleur lié à ce formulaire
         /// </summary>
-        internal FrmMediatek()
+        public FrmMediatek()
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
+            AfficherAbonnementsExpirationCourte();
         }
 
         /// <summary>
@@ -102,6 +103,45 @@ namespace MediaTekDocuments.view
             while (restart);
 
             return final;
+        }
+
+        public bool commandeDansAbonnement(DateTime dateCommande, DateTime dateFinAbo, DateTime dateParution)
+        {
+            if (dateParution >= dateCommande && dateParution <= dateFinAbo) return true; 
+            else return false;
+        }
+
+        public void AfficherAbonnementsExpirationCourte()
+        {
+            List<Abonnement> abonnements = controller.GetAllAbonnements();
+            List<Revue> revues = controller.GetAllRevues();
+
+            DateTime dateMax = DateTime.Today + TimeSpan.FromDays(30);
+
+            List<Abonnement> listeAbonnementsLimite = new List<Abonnement>();
+
+            string message = "";
+
+
+            foreach(Abonnement abo in abonnements)
+            {
+                Console.WriteLine("test");
+                if (abo.DateFinAbonnement >= DateTime.Today && abo.DateFinAbonnement < dateMax)
+                {
+                    string titre = revues.Find(x => x.Id.Equals(abo.IdRevue)).Titre;
+                    message += $"{titre} : fin de l'abonnement le {abo.DateFinAbonnement.ToString("dd/MM/yyyy")}\n";
+                }
+            }
+
+
+            if(message != "")
+            {
+                MessageBox.Show(message, "Des abonnements expireront bientôt !", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
+
+
         }
         #endregion
 
@@ -1329,7 +1369,7 @@ namespace MediaTekDocuments.view
         /// Remplit le dategrid avec la liste reçue en paramètre
         /// </summary>
         /// <param name="livres">liste de livres</param>
-        private void RemplirCommandeLivresListe(List<Commande> commandes)
+        private void RemplirCommandeLivresListe(List<CommandeDocument> commandes)
         {
             bdgCommandesLivresListe.DataSource = commandes;
             dgvAffichageCommandeLivres.DataSource = bdgCommandesLivresListe;
@@ -1349,7 +1389,7 @@ namespace MediaTekDocuments.view
                 Livre livre = lesLivres.Find(x => x.Id.Equals(txbCommandeLivresNumRecherche.Text));
                 if (livre != null)
                 {
-                    List<Commande> commandes = new List<Commande>(controller.GetCommandes(livre.Id));
+                    List<CommandeDocument> commandes = new List<CommandeDocument>(controller.GetCommandes(livre.Id));
                     RemplirCommandeLivresListe(commandes);
 
                     txbAffichageTitreCommandeLivres.Text = livre.Titre;
@@ -1420,7 +1460,7 @@ namespace MediaTekDocuments.view
 
             int nbExemplairesCommande = (int)nudExemplairesAjoutCommandeLivre.Value;
 
-            Commande commande = new Commande(idCommande,dateCommande,montantCommande,nbExemplairesCommande,idLivre,"En cours");
+            CommandeDocument commande = new CommandeDocument(idCommande,dateCommande,montantCommande,nbExemplairesCommande,idLivre,"En cours");
 
             controller.CreerCommande(commande);
 
@@ -1432,7 +1472,7 @@ namespace MediaTekDocuments.view
         private void dgvAffichageCommandeLivres_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            Commande commande = (Commande)dgvAffichageCommandeLivres.Rows[e.RowIndex].DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)dgvAffichageCommandeLivres.Rows[e.RowIndex].DataBoundItem;
 
             string statut = commande.Statut;
 
@@ -1473,7 +1513,7 @@ namespace MediaTekDocuments.view
 
             int selectedRowIndex = selectedRow.Index;
 
-            Commande commande = (Commande)selectedRow.DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)selectedRow.DataBoundItem;
 
             controller.UpdateSuivi((string)cbxModSuiviCommandeLivre.SelectedValue, commande.Id);
 
@@ -1493,7 +1533,7 @@ namespace MediaTekDocuments.view
 
             DataGridViewRow selectedRow = dgvAffichageCommandeLivres.SelectedRows[0];
 
-            Commande commande = (Commande)selectedRow.DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)selectedRow.DataBoundItem;
 
             controller.DeleteCommande(commande);
 
@@ -1524,7 +1564,7 @@ namespace MediaTekDocuments.view
                 Dvd dvd = lesCommandesDVD.Find(x => x.Id.Equals(txbRechercheCommandeDVD.Text));
                 if (dvd != null)
                 {
-                    List<Commande> commandes = new List<Commande>(controller.GetCommandes(dvd.Id));
+                    List<CommandeDocument> commandes = new List<CommandeDocument>(controller.GetCommandes(dvd.Id));
                     RemplirCommandeDvdListe(commandes);
 
                     txbAffichageTitreCommandeDvd.Text = dvd.Titre;
@@ -1541,7 +1581,7 @@ namespace MediaTekDocuments.view
             }
         }
 
-        private void RemplirCommandeDvdListe(List<Commande> commandes)
+        private void RemplirCommandeDvdListe(List<CommandeDocument> commandes)
         {
             bdgCommandesDVDListe.DataSource = commandes;
             dgvCommandeDvd.DataSource = bdgCommandesDVDListe;
@@ -1559,7 +1599,7 @@ namespace MediaTekDocuments.view
 
             int nbExemplairesCommande = (int)nudExemplairesAjoutCommandeDvd.Value;
 
-            Commande commande = new Commande(idCommande, dateCommande, montantCommande, nbExemplairesCommande, idDvd, "En cours");
+            CommandeDocument commande = new CommandeDocument(idCommande, dateCommande, montantCommande, nbExemplairesCommande, idDvd, "En cours");
 
             controller.CreerCommande(commande);
 
@@ -1570,7 +1610,7 @@ namespace MediaTekDocuments.view
 
         private void dgvCommandeDvd_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            Commande commande = (Commande)dgvCommandeDvd.Rows[e.RowIndex].DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)dgvCommandeDvd.Rows[e.RowIndex].DataBoundItem;
 
             string statut = commande.Statut;
 
@@ -1601,9 +1641,6 @@ namespace MediaTekDocuments.view
                 btnSuppressionCommandeDvd.Enabled = true;
                 btnSuppressionCommandeDvd.Text = "Supprimer la commande !";
             }
-
-
-            #endregion
         }
 
         private void btnModSuiviCommandeDvd_Click(object sender, EventArgs e)
@@ -1614,7 +1651,7 @@ namespace MediaTekDocuments.view
 
             int selectedRowIndex = selectedRow.Index;
 
-            Commande commande = (Commande)selectedRow.DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)selectedRow.DataBoundItem;
 
             controller.UpdateSuivi((string)cbxModSuiviCommandeDvd.SelectedValue, commande.Id);
 
@@ -1631,12 +1668,14 @@ namespace MediaTekDocuments.view
 
             DataGridViewRow selectedRow = dgvCommandeDvd.SelectedRows[0];
 
-            Commande commande = (Commande)selectedRow.DataBoundItem;
+            CommandeDocument commande = (CommandeDocument)selectedRow.DataBoundItem;
 
             controller.DeleteCommande(commande);
 
             btnRechercheCommandeDVD.PerformClick();
         }
+
+        #endregion
 
         private void label72_Click(object sender, EventArgs e)
         {
@@ -1676,6 +1715,109 @@ namespace MediaTekDocuments.view
         private void label75_Click(object sender, EventArgs e)
         {
 
+        }
+
+        #region Commande Revues
+
+
+        private readonly BindingSource bdgCommandesRevuesListe = new BindingSource();
+        private readonly BindingSource bdgCommandesRevuesSuivi = new BindingSource();
+        private List<Revue> lesCommandesRevues = new List<Revue>();
+
+        private void tabPageCommandeRevues_Enter(object sender, EventArgs e)
+        {
+            lesCommandesRevues = controller.GetAllRevues();
+        }
+
+
+        private void btnRechercheCommandeRevue_Click(object sender, EventArgs e)
+        {
+            if (!txbRechercheCommandeRevue.Text.Equals(""))
+            {
+                Revue revue = lesCommandesRevues.Find(x => x.Id.Equals(txbRechercheCommandeRevue.Text));
+                if (revue != null)
+                {
+                    txbAffichageTitreCommandeRevue.Text = revue.Titre;
+                    txbAffichagePeriodiciteCommandeRevue.Text = revue.Periodicite;
+                    txbAffichageDelaiCommandeRevue.Text = revue.DelaiMiseADispo.ToString();
+                    txbAffichageGenreCommandeRevue.Text = revue.Genre;
+                    txbAffichagePublicCommandeRevue.Text = revue.Public;
+                    txbAffichageRayonCommandeRevue.Text = revue.Rayon;
+
+                    List<Abonnement > commandes = new List<Abonnement >(controller.GetCommandesRevues(revue.Id));
+
+                    RemplirCommandeRevueListe(commandes);
+                }
+                else
+                {
+                    MessageBox.Show("numéro introuvable");
+                }
+            }
+
+        }
+
+        private void RemplirCommandeRevueListe(List<Abonnement > commandes)
+        {
+            bdgCommandesRevuesListe.DataSource = commandes;
+            dgvAffichageCommandeRevue.DataSource = bdgCommandesRevuesListe;
+            dgvAffichageCommandeRevue.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        }
+
+
+        #endregion
+
+        private void btnAjoutCommandeRevue_Click(object sender, EventArgs e)
+        {
+            string idCommande = genererIdAleatoire();
+            string idRevue = txbNumCommandeRevue.Text;
+
+            DateTime dateCommande = dtpDateCommandeRevue.Value;
+
+            DateTime dateFinAbo = dtpFinAbonnement.Value;
+
+
+            double montantCommande = Double.Parse(txbMontantCommandeRevue.Text);
+
+            Abonnement commande = new Abonnement(idCommande, dateCommande, montantCommande, dateFinAbo, idRevue);
+
+            controller.CreerAbonnement(commande);
+
+            txbRechercheCommandeRevue.Text = idRevue;
+
+            btnRechercheCommandeRevue.PerformClick();
+        }
+
+        private void btnSuppressionAbonnement_Click(object sender, EventArgs e)
+        {
+            Abonnement abonnement = (Abonnement)dgvAffichageCommandeRevue.SelectedRows[0].DataBoundItem;
+
+            List<Exemplaire> listeRevues = controller.GetExemplairesRevue(abonnement.IdRevue);
+
+            bool exemplaireDansAbo = false;
+
+            foreach(Exemplaire exemplaire in listeRevues)
+            {
+                exemplaireDansAbo = commandeDansAbonnement(abonnement.DateCommande, abonnement.DateFinAbonnement, exemplaire.DateAchat);
+
+                if (exemplaireDansAbo) break;
+            }
+
+            if(!exemplaireDansAbo)
+            {
+                controller.DeleteAbonnement(abonnement);
+                btnRechercheCommandeRevue.PerformClick();
+
+            }
+            else
+            {
+                MessageBox.Show("Impossible de supprimer cet abonnement : des revues lui sont liées.");
+            }
+
+        }
+
+        private void dgvAffichageCommandeRevue_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnSuppressionAbonnement.Enabled = true;
         }
     }
 }

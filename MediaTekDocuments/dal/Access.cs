@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.Configuration;
+using System.Drawing;
 
 namespace MediaTekDocuments.dal
 {
@@ -139,7 +140,12 @@ namespace MediaTekDocuments.dal
         {
             List<Abonnement> lesAbos = TraitementRecup<Abonnement>(GET, "abonnements");
             return lesAbos;
+        }
 
+        public List<Service> GetAllServices()
+        {
+            List<Service> lesServices = TraitementRecup<Service>(GET, "services");
+            return lesServices;
         }
 
 
@@ -282,14 +288,28 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
-        /// <summary>
-        /// Traitement de la récupération du retour de l'api, avec conversion du json en liste pour les select (GET)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="methode">verbe HTTP (GET, POST, PUT, DELETE)</param>
-        /// <param name="message">information envoyée</param>
-        /// <returns>liste d'objets récupérés (ou liste vide)</returns>
-        private List<T> TraitementRecup<T> (String methode, String message)
+        public List<Utilisateur> LoginUtilisateur(string nomUtilisateur, string mdpUtilisateur)
+        {
+            IDictionary<string, string> dictLogin = new Dictionary<string, string>();
+            dictLogin["Nom"] = nomUtilisateur;
+            dictLogin["Mdp"] = mdpUtilisateur;
+
+            String jsonLogin = JsonConvert.SerializeObject(dictLogin, new CustomDateTimeConverter());
+
+            List<Utilisateur> liste = TraitementRecup<Utilisateur>(GET, "utilisateur/" + jsonLogin);
+
+            return liste;
+
+        }
+
+    /// <summary>
+    /// Traitement de la récupération du retour de l'api, avec conversion du json en liste pour les select (GET)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="methode">verbe HTTP (GET, POST, PUT, DELETE)</param>
+    /// <param name="message">information envoyée</param>
+    /// <returns>liste d'objets récupérés (ou liste vide)</returns>
+    private List<T> TraitementRecup<T> (String methode, String message)
         {
             List<T> liste = new List<T>();
             try

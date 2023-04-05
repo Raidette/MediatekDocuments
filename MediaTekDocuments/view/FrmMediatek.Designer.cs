@@ -29,7 +29,7 @@ namespace MediaTekDocuments.view
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabConrolCommandeLivres = new System.Windows.Forms.TabControl();
+            this.tabControlFrmMediatek = new System.Windows.Forms.TabControl();
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.grpLivresInfos = new System.Windows.Forms.GroupBox();
             this.label59 = new System.Windows.Forms.Label();
@@ -276,7 +276,7 @@ namespace MediaTekDocuments.view
             this.label84 = new System.Windows.Forms.Label();
             this.btnRechercheCommandeRevue = new System.Windows.Forms.Button();
             this.txbLivresIsbn = new System.Windows.Forms.TextBox();
-            this.tabConrolCommandeLivres.SuspendLayout();
+            this.tabControlFrmMediatek.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresInfos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbLivresImage)).BeginInit();
@@ -320,22 +320,22 @@ namespace MediaTekDocuments.view
             this.gbxRechercheCommandeRevues.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabConrolCommandeLivres
+            // tabControlFrmMediatek
             // 
-            this.tabConrolCommandeLivres.Controls.Add(this.tabLivres);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabDvd);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabRevues);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabReceptionRevue);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabPageCommandesLivres);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabCommandeDvd);
-            this.tabConrolCommandeLivres.Controls.Add(this.tabPageCommandeRevues);
-            this.tabConrolCommandeLivres.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabConrolCommandeLivres.ItemSize = new System.Drawing.Size(49, 18);
-            this.tabConrolCommandeLivres.Location = new System.Drawing.Point(0, 0);
-            this.tabConrolCommandeLivres.Name = "tabConrolCommandeLivres";
-            this.tabConrolCommandeLivres.SelectedIndex = 0;
-            this.tabConrolCommandeLivres.Size = new System.Drawing.Size(883, 659);
-            this.tabConrolCommandeLivres.TabIndex = 0;
+            this.tabControlFrmMediatek.Controls.Add(this.tabLivres);
+            this.tabControlFrmMediatek.Controls.Add(this.tabDvd);
+            this.tabControlFrmMediatek.Controls.Add(this.tabRevues);
+            this.tabControlFrmMediatek.Controls.Add(this.tabReceptionRevue);
+            this.tabControlFrmMediatek.Controls.Add(this.tabPageCommandesLivres);
+            this.tabControlFrmMediatek.Controls.Add(this.tabCommandeDvd);
+            this.tabControlFrmMediatek.Controls.Add(this.tabPageCommandeRevues);
+            this.tabControlFrmMediatek.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlFrmMediatek.ItemSize = new System.Drawing.Size(49, 18);
+            this.tabControlFrmMediatek.Location = new System.Drawing.Point(0, 0);
+            this.tabControlFrmMediatek.Name = "tabControlFrmMediatek";
+            this.tabControlFrmMediatek.SelectedIndex = 0;
+            this.tabControlFrmMediatek.Size = new System.Drawing.Size(883, 659);
+            this.tabControlFrmMediatek.TabIndex = 0;
             // 
             // tabLivres
             // 
@@ -2905,10 +2905,10 @@ namespace MediaTekDocuments.view
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(883, 659);
-            this.Controls.Add(this.tabConrolCommandeLivres);
+            this.Controls.Add(this.tabControlFrmMediatek);
             this.Name = "FrmMediatek";
             this.Text = "Gestion des documents de la médiathèque";
-            this.tabConrolCommandeLivres.ResumeLayout(false);
+            this.tabControlFrmMediatek.ResumeLayout(false);
             this.tabLivres.ResumeLayout(false);
             this.grpLivresInfos.ResumeLayout(false);
             this.grpLivresInfos.PerformLayout();
@@ -2972,7 +2972,7 @@ namespace MediaTekDocuments.view
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabConrolCommandeLivres;
+        private System.Windows.Forms.TabControl tabControlFrmMediatek;
         private System.Windows.Forms.TabPage tabRevues;
         private System.Windows.Forms.TabPage tabLivres;
         private System.Windows.Forms.TabPage tabDvd;

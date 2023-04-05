@@ -12,7 +12,7 @@ namespace MediaTekDocuments.view.Tests
     public class FrmMediatekTests
     {
 
-        private FrmMediatek form = new FrmMediatek();
+        private FrmMediatek form = new FrmMediatek("administrateur");
 
         static readonly DateTime now = DateTime.Now;
         static readonly DateTime later = now + TimeSpan.FromHours(1.0);

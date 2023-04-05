@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace MediaTekDocuments.view
 
@@ -24,11 +25,24 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Constructeur : création du contrôleur lié à ce formulaire
         /// </summary>
-        public FrmMediatek()
+        public FrmMediatek(string serviceUtilisateur)
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
-            AfficherAbonnementsExpirationCourte();
+
+            TabControl.TabPageCollection tabpages = tabControlFrmMediatek.TabPages;
+
+            if (serviceUtilisateur == "prêts")
+            {
+                tabpages.RemoveByKey("tabReceptionRevue");
+                tabpages.RemoveByKey("tabPageCommandesLivres");
+                tabpages.RemoveByKey("tabCommandeDvd");
+                tabpages.RemoveByKey("tabPageCommandeRevues");
+            }
+            else
+            {
+                AfficherAbonnementsExpirationCourte();
+            }
         }
 
         /// <summary>
@@ -125,7 +139,6 @@ namespace MediaTekDocuments.view
 
             foreach(Abonnement abo in abonnements)
             {
-                Console.WriteLine("test");
                 if (abo.DateFinAbonnement >= DateTime.Today && abo.DateFinAbonnement < dateMax)
                 {
                     string titre = revues.Find(x => x.Id.Equals(abo.IdRevue)).Titre;

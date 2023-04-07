@@ -19,6 +19,12 @@ namespace MediaTekDocuments.dal
         /// adresse de l'API
         /// </summary>
         private static readonly string uriApi = "http://localhost/rest_mediatekdocuments/";
+
+        /// <summary>
+        /// Chemin du couple id:pwd dans le fichier app.config
+        /// </summary>
+        private static readonly string appConfigCredentialsPath = "MediatekDocuments.Properties.Settings.MediatekDocumentsConnectionString";
+
         /// <summary>
         /// instance unique de la classe
         /// </summary>
@@ -50,17 +56,31 @@ namespace MediaTekDocuments.dal
         /// </summary>
         private Access()
         {
-            String authenticationString;
+            String connectionString = null;
             try
             {
-                authenticationString = "admin:adminpwd";
-                api = ApiRest.GetInstance(uriApi, authenticationString);
+                connectionString = GetConnectionStringByName(appConfigCredentialsPath);
+                api = ApiRest.GetInstance(uriApi, connectionString);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Erreur d'accès à la bdd avec la connectionString suivante :", connectionString, e.Message);
                 Environment.Exit(0);
             }
+        }
+
+        /// <summary>
+        /// Récupération de la chaîne de connexion
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static string GetConnectionStringByName(string name)
+        {
+            string returnValue = null;
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[name];
+            if (settings != null)
+                returnValue = settings.ConnectionString;
+            return returnValue;
         }
 
         /// <summary>

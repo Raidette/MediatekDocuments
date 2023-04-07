@@ -7,8 +7,8 @@ node {
     def scannerHome = tool 'SonarScanner for MSBuild'
     withSonarQubeEnv() {
       bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" begin /k:\"mediatekdocuments\""
-      bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTek"
-      bat "\"${msbuildHome}\\MSBuild.exe\" /t:Rebuild MediaTekDocuments.sln"
+      bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTekDocuments.sln"
+      bat "\"${msbuildHome}\\MSBuild.exe\" /t:Rebuild"
       bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" end"
     }
   }

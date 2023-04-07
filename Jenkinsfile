@@ -10,7 +10,7 @@ node {
       bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTekDocumentsTests"
       bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTekDocuments"
       bat "\"${msbuildHome}\\MSBuild.exe\" /t:Rebuild"
-      //bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" end"
+      bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" end"
     }
   }
 }

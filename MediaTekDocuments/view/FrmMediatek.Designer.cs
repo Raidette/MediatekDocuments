@@ -2202,6 +2202,7 @@ namespace MediaTekDocuments.view
             this.dgvAffichageCommandeLivres.Size = new System.Drawing.Size(844, 200);
             this.dgvAffichageCommandeLivres.TabIndex = 17;
             this.dgvAffichageCommandeLivres.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAffichageCommandeLivres_CellClick);
+            this.dgvAffichageCommandeLivres.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAffichageCommandeLivres_ColumnHeaderMouseClick);
             // 
             // btnCommandeLivresNumRecherche
             // 
@@ -2546,6 +2547,7 @@ namespace MediaTekDocuments.view
             this.dgvCommandeDvd.Size = new System.Drawing.Size(844, 200);
             this.dgvCommandeDvd.TabIndex = 17;
             this.dgvCommandeDvd.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCommandeDvd_CellClick);
+            this.dgvCommandeDvd.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCommandeDvd_ColumnHeaderMouseClick);
             // 
             // btnRechercheCommandeDVD
             // 
@@ -2723,6 +2725,7 @@ namespace MediaTekDocuments.view
             this.dgvAffichageCommandeRevue.Size = new System.Drawing.Size(859, 183);
             this.dgvAffichageCommandeRevue.TabIndex = 18;
             this.dgvAffichageCommandeRevue.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAffichageCommandeRevue_CellContentClick);
+            this.dgvAffichageCommandeRevue.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAffichageCommandeRevue_ColumnHeaderMouseClick);
             // 
             // gbxRechercheCommandeRevues
             // 

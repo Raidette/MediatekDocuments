@@ -15,10 +15,15 @@ namespace MediaTekDocuments.model
 
         public Abonnement(string id, DateTime date, double montant, DateTime dateFinAbo, string idRevue) : base(id,date,montant)
         {
-            this.DateFinAbonnement = dateFinAbo;
+            if(dateFinAbo >= date)
+            {
 
-            this.IdRevue = idRevue;
-            
+                this.DateFinAbonnement = dateFinAbo;
+
+                this.IdRevue = idRevue;
+
+            }
+
         }
 
     }

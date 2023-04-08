@@ -363,3 +363,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Ignore local sonarlint/sonarqube stuff
+.sonarlint/
+.sonarqube/
+buildscript.bat

@@ -6,6 +6,7 @@ node {
     def msbuildHome = tool 'Default MSBuild'
     def scannerHome = tool 'SonarScanner for MSBuild'
     withSonarQubeEnv() {
+      bat "git config --global core.longpaths true"
       bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" begin /k:\"mediatekdocuments\""
       bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTekDocumentsTests"
       bat "\"${msbuildHome}\\MSBuild.exe\" /t:Restore MediaTekDocuments"

@@ -15,10 +15,11 @@ namespace MediaTekDocuments.dal
     /// </summary>
     public class Access
     {
+
         /// <summary>
-        /// adresse de l'API
+        /// Chemin de l'url de l'api dans le fichier app.config
         /// </summary>
-        private static readonly string uriApi = "http://localhost/rest_mediatekdocuments/";
+        private static readonly string appConfigUrlPath = "MediatekDocuments.Properties.Settings.RestUrl";
 
         /// <summary>
         /// Chemin du couple id:pwd dans le fichier app.config
@@ -57,14 +58,16 @@ namespace MediaTekDocuments.dal
         private Access()
         {
             String connectionString = null;
+            String urlApi = null;
             try
             {
                 connectionString = GetConnectionStringByName(appConfigCredentialsPath);
-                api = ApiRest.GetInstance(uriApi, connectionString);
+                urlApi = GetConnectionStringByName(appConfigUrlPath);
+                api = ApiRest.GetInstance(urlApi, connectionString);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erreur d'accès à la bdd avec la connectionString suivante :", connectionString, e.Message);
+                Console.WriteLine("Erreur d'accès à la bdd avec la connectionString suivante : " + connectionString + e.Message);
                 Environment.Exit(0);
             }
         }
@@ -231,11 +234,8 @@ namespace MediaTekDocuments.dal
 
         public bool updateSuivi(string suivi, string id)
         {
-            //String jsonUpdate = JsonConvert.SerializeObject(suivi, new CustomDateTimeConverter());
-
             try
             {
-                Console.WriteLine($"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
                 List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(PUT, $"suivi/{id}/{{\"Statut\":\"{suivi}\"}}");
 
                 return (liste != null);
@@ -250,11 +250,15 @@ namespace MediaTekDocuments.dal
 
         public bool DeleteCommande(Commande commande)
         {
-            String jsonCommande = JsonConvert.SerializeObject(commande.Id, new CustomDateTimeConverter());
+            IDictionary<string, string> dictCommande = new Dictionary<string, string>();
+            dictCommande["id"] = commande.Id;
+
+            string jsonCommande = JsonConvert.SerializeObject(dictCommande);
+
 
             try
             {
-                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, $"commande/{{\"id\":\"{commande.Id}\"}}");
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, $"commande/" + jsonCommande);
 
                 return (liste != null);
             }
@@ -292,11 +296,14 @@ namespace MediaTekDocuments.dal
 
         public bool DeleteAbonnement(Abonnement abonnement)
         {
-            String jsonAbo = JsonConvert.SerializeObject(abonnement.Id, new CustomDateTimeConverter());
+            IDictionary<string, string> dictAbo = new Dictionary<string, string>();
+            dictAbo["Nom"] = abonnement.Id;
+
+            String jsonAbo = JsonConvert.SerializeObject(dictAbo, new CustomDateTimeConverter());
 
             try
             {
-                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, $"abonnement/{{\"Id\":\"{abonnement.Id}\"}}");
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, "abonnement/" + jsonAbo);
 
                 return (liste != null);
             }

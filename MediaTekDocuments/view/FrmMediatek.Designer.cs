@@ -2092,7 +2092,6 @@ namespace MediaTekDocuments.view
             this.label75.Size = new System.Drawing.Size(44, 13);
             this.label75.TabIndex = 56;
             this.label75.Text = "Rayon :";
-            this.label75.Click += new System.EventHandler(this.label75_Click);
             // 
             // label76
             // 
@@ -2102,7 +2101,6 @@ namespace MediaTekDocuments.view
             this.label76.Size = new System.Drawing.Size(45, 13);
             this.label76.TabIndex = 55;
             this.label76.Text = "Public  :";
-            this.label76.Click += new System.EventHandler(this.label76_Click);
             // 
             // txbAffichageRayonCommandeLivres
             // 
@@ -2111,7 +2109,6 @@ namespace MediaTekDocuments.view
             this.txbAffichageRayonCommandeLivres.ReadOnly = true;
             this.txbAffichageRayonCommandeLivres.Size = new System.Drawing.Size(183, 20);
             this.txbAffichageRayonCommandeLivres.TabIndex = 54;
-            this.txbAffichageRayonCommandeLivres.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // txbAffichagePublicCommandeLivres
             // 
@@ -2120,7 +2117,6 @@ namespace MediaTekDocuments.view
             this.txbAffichagePublicCommandeLivres.ReadOnly = true;
             this.txbAffichagePublicCommandeLivres.Size = new System.Drawing.Size(183, 20);
             this.txbAffichagePublicCommandeLivres.TabIndex = 53;
-            this.txbAffichagePublicCommandeLivres.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // label77
             // 
@@ -2130,7 +2126,6 @@ namespace MediaTekDocuments.view
             this.label77.Size = new System.Drawing.Size(42, 13);
             this.label77.TabIndex = 52;
             this.label77.Text = "Genre :";
-            this.label77.Click += new System.EventHandler(this.label77_Click);
             // 
             // txbAffichageGenreCommandeLivres
             // 
@@ -2139,7 +2134,6 @@ namespace MediaTekDocuments.view
             this.txbAffichageGenreCommandeLivres.ReadOnly = true;
             this.txbAffichageGenreCommandeLivres.Size = new System.Drawing.Size(183, 20);
             this.txbAffichageGenreCommandeLivres.TabIndex = 51;
-            this.txbAffichageGenreCommandeLivres.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // label74
             // 
@@ -2158,7 +2152,6 @@ namespace MediaTekDocuments.view
             this.label73.Size = new System.Drawing.Size(44, 13);
             this.label73.TabIndex = 49;
             this.label73.Text = "Auteur :";
-            this.label73.Click += new System.EventHandler(this.label73_Click);
             // 
             // txbAffichageCollectionCommandeLivres
             // 
@@ -2184,7 +2177,6 @@ namespace MediaTekDocuments.view
             this.label72.Size = new System.Drawing.Size(34, 13);
             this.label72.TabIndex = 46;
             this.label72.Text = "Titre :";
-            this.label72.Click += new System.EventHandler(this.label72_Click);
             // 
             // txbAffichageTitreCommandeLivres
             // 

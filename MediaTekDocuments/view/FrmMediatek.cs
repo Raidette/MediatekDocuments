@@ -7,6 +7,7 @@ using System.Linq;
 using System.Drawing;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace MediaTekDocuments.view
 
@@ -31,6 +32,8 @@ namespace MediaTekDocuments.view
             this.controller = new FrmMediatekController();
 
             TabControl.TabPageCollection tabpages = tabControlFrmMediatek.TabPages;
+
+            
 
             if (serviceUtilisateur == "prêts")
             {
@@ -95,28 +98,31 @@ namespace MediaTekDocuments.view
 
             bool restart = true;
 
-            string final;
+            StringBuilder bld = new StringBuilder();
 
             do
             {
-                final = "";
 
                 Random rnd = new Random();
 
                 for (int i = 0; i < 5; i++)
                 {
-                    final += rnd.Next(10);
+                    bld.Append(rnd.Next(10));
                 }
 
-                if(controller.GetCommandes(final).Count == 0)
+                if(controller.GetCommandes(bld.ToString()).Count == 0)
                 {
                     restart = false;
+                }
+                else
+                {
+                    bld.Clear();
                 }
 
             }
             while (restart);
 
-            return final;
+            return bld.ToString();
         }
 
         public bool commandeDansAbonnement(DateTime dateCommande, DateTime dateFinAbo, DateTime dateParution)
@@ -132,22 +138,22 @@ namespace MediaTekDocuments.view
 
             DateTime dateMax = DateTime.Today + TimeSpan.FromDays(30);
 
-            List<Abonnement> listeAbonnementsLimite = new List<Abonnement>();
 
-            string message = "";
+            StringBuilder bld = new StringBuilder();
 
-
-            foreach(Abonnement abo in abonnements)
+            foreach (Abonnement abo in abonnements)
             {
                 if (abo.DateFinAbonnement >= DateTime.Today && abo.DateFinAbonnement < dateMax)
                 {
                     string titre = revues.Find(x => x.Id.Equals(abo.IdRevue)).Titre;
-                    message += $"{titre} : fin de l'abonnement le {abo.DateFinAbonnement.ToString("dd/MM/yyyy")}\n";
+                    bld.Append($"{titre} : fin de l'abonnement le {abo.DateFinAbonnement.ToString("dd/MM/yyyy")}\n");
                 }
             }
 
+            string message = bld.ToString();
 
-            if(message != "")
+
+            if (message != "")
             {
                 MessageBox.Show(message, "Des abonnements expireront bientôt !", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1365,7 +1371,7 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void tabPageCommandesLivres_Enter(object sender, EventArgs e)
         {
-            lesLivres = controller.GetAllLivres();
+            lesCommandesLivres = controller.GetAllLivres();
 
             cbxModSuiviCommandeLivre.Enabled = false;
             btnModSuiviCommandeLivre.Enabled = false;
@@ -1399,7 +1405,7 @@ namespace MediaTekDocuments.view
         {
             if (!txbCommandeLivresNumRecherche.Text.Equals(""))
             {
-                Livre livre = lesLivres.Find(x => x.Id.Equals(txbCommandeLivresNumRecherche.Text));
+                Livre livre = lesCommandesLivres.Find(x => x.Id.Equals(txbCommandeLivresNumRecherche.Text));
                 if (livre != null)
                 {
                     List<CommandeDocument> commandes = new List<CommandeDocument>(controller.GetCommandes(livre.Id));
@@ -1418,49 +1424,6 @@ namespace MediaTekDocuments.view
                 }
             }
         }
-
-
-        /*
-        /// <summary>
-        /// vide les zones de recherche et de filtre
-        /// </summary>
-        /// <summary>
-        /// Tri sur les colonnes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DgvCommandeLivresListe_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            VideCommandeLivresZones();
-            string titreColonne = dgvCommandeLivresListe.Columns[e.ColumnIndex].HeaderText;
-            List<Livre> sortedList = new List<Livre>();
-            switch (titreColonne)
-            {
-                case "Id":
-                    sortedList = lesLivres.OrderBy(o => o.Id).ToList();
-                    break;
-                case "Titre":
-                    sortedList = lesLivres.OrderBy(o => o.Titre).ToList();
-                    break;
-                case "Collection":
-                    sortedList = lesLivres.OrderBy(o => o.Collection).ToList();
-                    break;
-                case "Auteur":
-                    sortedList = lesLivres.OrderBy(o => o.Auteur).ToList();
-                    break;
-                case "Genre":
-                    sortedList = lesLivres.OrderBy(o => o.Genre).ToList();
-                    break;
-                case "Public":
-                    sortedList = lesLivres.OrderBy(o => o.Public).ToList();
-                    break;
-                case "Rayon":
-                    sortedList = lesLivres.OrderBy(o => o.Rayon).ToList();
-                    break;
-            }
-            RemplirCommandeLivresListe(sortedList);
-        }
-        */
 
         private void btnAjoutCommandeLivre_Click(object sender, EventArgs e)
         {
@@ -1690,51 +1653,10 @@ namespace MediaTekDocuments.view
 
         #endregion
 
-        private void label72_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label73_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label77_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label76_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label75_Click(object sender, EventArgs e)
-        {
-
-        }
-
         #region Commande Revues
 
 
         private readonly BindingSource bdgCommandesRevuesListe = new BindingSource();
-        private readonly BindingSource bdgCommandesRevuesSuivi = new BindingSource();
         private List<Revue> lesCommandesRevues = new List<Revue>();
 
         private void tabPageCommandeRevues_Enter(object sender, EventArgs e)

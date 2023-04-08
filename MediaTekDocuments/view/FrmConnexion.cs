@@ -52,6 +52,7 @@ namespace MediaTekDocuments.view
                     FrmMediatek = new FrmMediatek(serviceUtilisateur.Nom);
                     FrmMediatek.Show();
                     FrmMediatek.FormClosing += (obj, args) => { this.Close(); };
+
                 }
             }
 

@@ -63,7 +63,7 @@ namespace MediaTekDocuments.dal
             {
                 connectionString = GetConnectionStringByName(appConfigCredentialsPath);
                 urlApi = GetConnectionStringByName(appConfigUrlPath);
-                api = ApiRest.GetInstance(urlApi, connectionString);
+                api = ApiRest.GetInstance("http://localhost/rest_mediatekdocuments/","admin:adminpwd");
             }
             catch (Exception e)
             {
@@ -75,8 +75,8 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Récupération de la chaîne de connexion
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">nom de l'information qu'on veut récupérer</param>
+        /// <returns>Information de app.config lié au name</returns>
         static string GetConnectionStringByName(string name)
         {
             string returnValue = null;
@@ -159,12 +159,20 @@ namespace MediaTekDocuments.dal
             return lesRevues;
         }
 
+        /// <summary>
+        /// Retourne tous les abonnements à partir de la BDD.
+        /// </summary>
+        /// <returns>Liste d'objets abonnement</returns>
         public List<Abonnement> GetAllAbonnements()
         {
             List<Abonnement> lesAbos = TraitementRecup<Abonnement>(GET, "abonnements");
             return lesAbos;
         }
 
+        /// <summary>
+        /// Retourne tous les services à partir de la BDD.
+        /// </summary>
+        /// <returns>Liste d'objets service.</returns>
         public List<Service> GetAllServices()
         {
             List<Service> lesServices = TraitementRecup<Service>(GET, "services");
@@ -214,6 +222,11 @@ namespace MediaTekDocuments.dal
             return lesCommandes;
         }
         
+        /// <summary>
+        /// Crée une commande de document dans la BDD.
+        /// </summary>
+        /// <param name="commande">Infos de la commande.</param>
+        /// <returns>Résultat de la création : réussite ou échec</returns>
         public bool CreerCommande(CommandeDocument commande)
         {
             String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
@@ -232,6 +245,12 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
+        /// <summary>
+        /// Mise à jour du suivi d'une commande.
+        /// </summary>
+        /// <param name="suivi">Nouveau suivi de la commande.</param>
+        /// <param name="id">ID de la commande.</param>
+        /// <returns>Résultat de l'insertion : réussite ou échec.</returns>
         public bool updateSuivi(string suivi, string id)
         {
             try
@@ -248,6 +267,11 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
+        /// <summary>
+        /// Suppression d'une commande non livrée.
+        /// </summary>
+        /// <param name="commande">Informations de la commande.</param>
+        /// <returns>Résultat de la suppression : réussite ou échec.</returns>
         public bool DeleteCommande(Commande commande)
         {
             IDictionary<string, string> dictCommande = new Dictionary<string, string>();
@@ -270,12 +294,22 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
+        /// <summary>
+        /// Obtenir la liste des commandes d'une revue à partir de la BDD.
+        /// </summary>
+        /// <param name="idRevue">ID de la revue.</param>
+        /// <returns>Liste d'objets commande.</returns>
         public List<Abonnement> GetCommandesRevues(string idRevue)
         {
             List<Abonnement> lesCommandes = TraitementRecup<Abonnement >(GET, "commandeRevue/" + idRevue);
             return lesCommandes;
         }
 
+        /// <summary>
+        /// Création d'un abonnement dans la BDD.
+        /// </summary>
+        /// <param name="abonnement">Infos de l'abonnement.</param>
+        /// <returns>Résultat de la création : réussite ou échec.</returns>
         public bool CreerAbonnement(Abonnement abonnement)
         {
             String jsonAbo = JsonConvert.SerializeObject(abonnement, new CustomDateTimeConverter());
@@ -294,6 +328,11 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
+        /// <summary>
+        /// Suppression d'un abonnement à une revue dans la BDD.
+        /// </summary>
+        /// <param name="abonnement">Infos de l'abonnement</param>
+        /// <returns></returns>
         public bool DeleteAbonnement(Abonnement abonnement)
         {
             IDictionary<string, string> dictAbo = new Dictionary<string, string>();
@@ -315,6 +354,12 @@ namespace MediaTekDocuments.dal
             return false;
         }
 
+        /// <summary>
+        /// Récupère la liste des utilisateurs après une connexion.
+        /// </summary>
+        /// <param name="nomUtilisateur">Nom de l'utilisateur</param>
+        /// <param name="mdpUtilisateur">Mot de passe de l'utilisateur</param>
+        /// <returns></returns>
         public List<Utilisateur> LoginUtilisateur(string nomUtilisateur, string mdpUtilisateur)
         {
             IDictionary<string, string> dictLogin = new Dictionary<string, string>();

@@ -3,7 +3,9 @@ using System.IO;
 
 namespace MediaTekDocuments.model
 {
-
+    /// <summary>
+    /// Classe métier singleton Logger : Permet la création des logs de la sortie console de l'application dans un fichier.
+    /// </summary>
     public class Logger
     {
         /// <summary>
@@ -29,10 +31,17 @@ namespace MediaTekDocuments.model
         /// </summary>
         private StreamWriter swErr = null;
 
+        /// <summary>
+        /// Constructeur de la classe.
+        /// </summary>
         public Logger()
         {
         }
 
+        /// <summary>
+        /// Renvoie l'instance unique de la classe.
+        /// </summary>
+        /// <returns></returns>
         public static Logger getInstance()
         {
             if (instance == null)
@@ -43,6 +52,9 @@ namespace MediaTekDocuments.model
             return instance;
         }
 
+        /// <summary>
+        /// Démarre la journalisation dans le fichier de log. (appellé au lancement du programme.)
+        /// </summary>
         public void startLog()
         {
             FileStream fsStandard = new FileStream(outPath, FileMode.Append, FileAccess.Write);
@@ -61,6 +73,9 @@ namespace MediaTekDocuments.model
 
         }
 
+        /// <summary>
+        /// Ferme la journalisation dans le fichier de logs. (appellé à la fermeture du programme.)
+        /// </summary>
         public void endLog()
         {
             Console.WriteLine("Logging for this session ended at : " + DateTime.Now.ToString() + "\n");

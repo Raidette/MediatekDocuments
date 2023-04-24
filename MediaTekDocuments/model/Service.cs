@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MediaTekDocuments.model
 {
+    /// <summary>
+    /// Classe métier Service (contient les propriétés Id, Nom)
+    /// Permet de lier un service à un utilisateur.
+    /// </summary>
     public class Service
     {
         public string Id { get; }

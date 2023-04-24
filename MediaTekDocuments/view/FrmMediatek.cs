@@ -25,16 +25,16 @@ namespace MediaTekDocuments.view
         private readonly BindingSource bdgRayons = new BindingSource();
 
         /// <summary>
-        /// Constructeur : création du contrôleur lié à ce formulaire
+        /// Constructeur : création du contrôleur lié à ce formulaire.
+        /// Vérifie le service de l'utilisateur et cache des fonctionnalités si ses privilèges sont trop bas.
         /// </summary>
+        /// <param name="serviceUtilisateur">Service de l'utilisateur voulant s'y connecter.</param>
         public FrmMediatek(string serviceUtilisateur)
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
 
             TabControl.TabPageCollection tabpages = tabControlFrmMediatek.TabPages;
-
-            
 
             if (serviceUtilisateur == "prêts")
             {
@@ -65,6 +65,12 @@ namespace MediaTekDocuments.view
             }
         }
 
+        /// <summary>
+        /// Remplit le combobox de modification du suivi d'une commande.
+        /// </summary>
+        /// <param name="bdg"></param>
+        /// <param name="cbx"></param>
+        /// <param name="valeurSelec"></param>
         public void RemplirComboSuivi(BindingSource bdg, ComboBox cbx, String valeurSelec = "")
         {
             List<string> listeEtats;
@@ -86,7 +92,7 @@ namespace MediaTekDocuments.view
 
                 default:
                     listeEtats = new List<string>();
-                    break;
+                    break;  
 
             }
 
@@ -94,6 +100,10 @@ namespace MediaTekDocuments.view
             cbx.DataSource = bdg;
         }
 
+        /// <summary>
+        /// Génération d'un id aléatoire non-existant dans la BDD pour un document.
+        /// </summary>
+        /// <returns></returns>
         public string genererIdAleatoire()
         {
 
@@ -125,13 +135,23 @@ namespace MediaTekDocuments.view
 
             return bld.ToString();
         }
-
+    
+        /// <summary>
+        /// Vérfie qu'une commande est bien liée à un abonnement.
+        /// </summary>
+        /// <param name="dateCommande"></param>
+        /// <param name="dateFinAbo"></param>
+        /// <param name="dateParution"></param>
+        /// <returns></returns>
         public bool commandeDansAbonnement(DateTime dateCommande, DateTime dateFinAbo, DateTime dateParution)
         {
             if (dateParution >= dateCommande && dateParution <= dateFinAbo) return true; 
             else return false;
         }
 
+        /// <summary>
+        /// Affiche un message si jamais des abonnements arrivent bientôt à expiration. (30j)
+        /// </summary>
         public void AfficherAbonnementsExpirationCourte()
         {
             List<Abonnement> abonnements = controller.GetAllAbonnements();
@@ -1426,6 +1446,11 @@ namespace MediaTekDocuments.view
             }
         }
 
+        /// <summary>
+        /// Ajout d'une commande de document de type Livre.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAjoutCommandeLivre_Click(object sender, EventArgs e)
         {
             string idCommande = genererIdAleatoire();
@@ -1446,6 +1471,12 @@ namespace MediaTekDocuments.view
             btnCommandeLivresNumRecherche.PerformClick();
 
         }
+
+        /// <summary>
+        /// Sélection d'une commande de Livre, remplissage des champs liés à cette commande.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAffichageCommandeLivres_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -1485,6 +1516,11 @@ namespace MediaTekDocuments.view
             }
         }
 
+        /// <summary>
+        /// Lancement de la modification du suivi d'une commande de Livre.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModSuiviCommandeLivre_Click(object sender, EventArgs e)
         {
             Console.WriteLine(cbxModSuiviCommandeLivre.SelectedValue);
@@ -1506,6 +1542,11 @@ namespace MediaTekDocuments.view
 
         }
 
+        /// <summary>
+        /// Lancement de la suppression d'une commande de Livre.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSuppressionCommandeLivre_Click(object sender, EventArgs e)
         {
 
@@ -1521,7 +1562,11 @@ namespace MediaTekDocuments.view
 
         }
 
-
+        /// <summary>
+        /// Trie les commandes du DataGridView des Livres.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAffichageCommandeLivres_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvAffichageCommandeLivres.Columns[e.ColumnIndex].HeaderText;
@@ -1561,6 +1606,11 @@ namespace MediaTekDocuments.view
         private readonly BindingSource bdgCommandesDVDSuivi = new BindingSource();
         private List<CommandeDocument> lesCommandesDVD = new List<CommandeDocument>();
 
+        /// <summary>
+        /// Entrée dans la fenêtre des DVD.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabCommandeDvd_Enter(object sender, EventArgs e)
         {
             lesDvd = controller.GetAllDvd();
@@ -1569,6 +1619,12 @@ namespace MediaTekDocuments.view
             btnModSuiviCommandeLivre.Enabled = false;
         }
 
+        /// <summary>
+        /// Lancement la recherche de commande de DVD.
+        /// Affichage d'une erreur si le numéro n'existe pas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRechercheCommandeDVD_Click(object sender, EventArgs e)
         {
             if (!txbRechercheCommandeDVD.Text.Equals(""))
@@ -1593,6 +1649,10 @@ namespace MediaTekDocuments.view
             }
         }
 
+        /// <summary>
+        /// Remplissage du DGV des commandes de DVD.
+        /// </summary>
+        /// <param name="commandes"></param>
         private void RemplirCommandeDvdListe(List<CommandeDocument> commandes)
         {
             bdgCommandesDVDListe.DataSource = commandes;
@@ -1600,6 +1660,11 @@ namespace MediaTekDocuments.view
             dgvCommandeDvd.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
+        /// <summary>
+        /// Création d'une commande de DVD
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreerCommandeDvd_Click(object sender, EventArgs e)
         {
             string idCommande = genererIdAleatoire();
@@ -1620,6 +1685,11 @@ namespace MediaTekDocuments.view
             btnRechercheCommandeDVD.PerformClick();
         }
 
+        /// <summary>
+        /// Sélection d'une commande de DVD
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvCommandeDvd_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
@@ -1659,7 +1729,11 @@ namespace MediaTekDocuments.view
         }
 
 
-
+        /// <summary>
+        /// Modification du suivi d'une commande de dvd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnModSuiviCommandeDvd_Click(object sender, EventArgs e)
         {
             Console.WriteLine(cbxModSuiviCommandeDvd.SelectedValue);
@@ -1679,6 +1753,11 @@ namespace MediaTekDocuments.view
             dgvCommandeDvd_CellClick(this.dgvCommandeDvd, new DataGridViewCellEventArgs(3, selectedRowIndex));
         }
 
+        /// <summary>
+        /// Suppression d'une commande de dvd non livrée.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSuppressionCommandeDvd_Click(object sender, EventArgs e)
         {
             Console.WriteLine(cbxModSuiviCommandeDvd.SelectedValue);
@@ -1692,6 +1771,11 @@ namespace MediaTekDocuments.view
             btnRechercheCommandeDVD.PerformClick();
         }
 
+        /// <summary>
+        /// Tri sur les colonnes du DGV de commandedvd.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvCommandeDvd_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvCommandeDvd.Columns[e.ColumnIndex].HeaderText;
@@ -1725,18 +1809,28 @@ namespace MediaTekDocuments.view
 
         #endregion
 
-        #region Commande Revues
+        #region Commande Revues / Abonnements
 
 
         private readonly BindingSource bdgCommandesRevuesListe = new BindingSource();
         private List<Abonnement> lesAbonnements = new List<Abonnement>();
 
+        /// <summary>
+        /// Entrée dans l'onglet des commandes de revues.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabPageCommandeRevues_Enter(object sender, EventArgs e)
         {
             lesRevues = controller.GetAllRevues();
         }
 
-
+        /// <summary>
+        /// Recherche d'une commande de revue.
+        /// Affichage d'un message d'erreur si numéro introuvable.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRechercheCommandeRevue_Click(object sender, EventArgs e)
         {
             if (!txbRechercheCommandeRevue.Text.Equals(""))
@@ -1763,6 +1857,10 @@ namespace MediaTekDocuments.view
 
         }
 
+        /// <summary>
+        /// Remplissage de la liste des commandes liées à une revue.
+        /// </summary>
+        /// <param name="commandes"></param>
         private void RemplirCommandeRevueListe(List<Abonnement > commandes)
         {
             bdgCommandesRevuesListe.DataSource = commandes;
@@ -1770,9 +1868,11 @@ namespace MediaTekDocuments.view
             dgvAffichageCommandeRevue.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
-
-        #endregion
-
+        /// <summary>
+        /// Ajout d'une commande liée à une revue.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAjoutCommandeRevue_Click(object sender, EventArgs e)
         {
             string idCommande = genererIdAleatoire();
@@ -1794,6 +1894,11 @@ namespace MediaTekDocuments.view
             btnRechercheCommandeRevue.PerformClick();
         }
 
+        /// <summary>
+        /// Suppression d'un abonnement.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSuppressionAbonnement_Click(object sender, EventArgs e)
         {
             Abonnement abonnement = (Abonnement)dgvAffichageCommandeRevue.SelectedRows[0].DataBoundItem;
@@ -1802,14 +1907,14 @@ namespace MediaTekDocuments.view
 
             bool exemplaireDansAbo = false;
 
-            foreach(Exemplaire exemplaire in listeRevues)
+            foreach (Exemplaire exemplaire in listeRevues)
             {
                 exemplaireDansAbo = commandeDansAbonnement(abonnement.DateCommande, abonnement.DateFinAbonnement, exemplaire.DateAchat);
 
                 if (exemplaireDansAbo) break;
             }
 
-            if(!exemplaireDansAbo)
+            if (!exemplaireDansAbo)
             {
                 controller.DeleteAbonnement(abonnement);
                 btnRechercheCommandeRevue.PerformClick();
@@ -1822,11 +1927,21 @@ namespace MediaTekDocuments.view
 
         }
 
+        /// <summary>
+        /// Sélection d'un abonnement (commanderevue)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAffichageCommandeRevue_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             btnSuppressionAbonnement.Enabled = true;
         }
 
+        /// <summary>
+        /// Tri sur la liste des commandes d'abonnement.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAffichageCommandeRevue_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvAffichageCommandeRevue.Columns[e.ColumnIndex].HeaderText;
@@ -1854,5 +1969,8 @@ namespace MediaTekDocuments.view
             }
             RemplirCommandeRevueListe(sortedList);
         }
+
+        #endregion
+
     }
 }

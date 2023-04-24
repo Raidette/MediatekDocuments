@@ -2,7 +2,7 @@
 namespace MediaTekDocuments.model
 {
     /// <summary>
-    /// Classe métier utilisateur : contient les informations d'un utilisateur
+    /// Classe métier utilisateur : contient les informations d'un utilisateur (id,nom,mdp,idService)
     /// </summary>
     public class Utilisateur
     {

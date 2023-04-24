@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B97D10CA-A9F7-4807-971D-754E7A977F51}</ProjectGuid>
+    <ProjectGuid>{B1075943-1F51-4A14-9AAD-118FE8FC157B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MediaTekDocumentsTests</RootNamespace>
@@ -56,18 +56,28 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="model\AbonnementTests.cs" />
+    <Compile Include="model\CategorieTests.cs" />
+    <Compile Include="model\CommandeDocumentTests.cs" />
+    <Compile Include="model\CommandeTests.cs" />
+    <Compile Include="model\DocumentTests.cs" />
+    <Compile Include="model\DvdTests.cs" />
+    <Compile Include="model\EtatTests.cs" />
+    <Compile Include="model\ExemplaireTests.cs" />
+    <Compile Include="model\LivreTests.cs" />
+    <Compile Include="model\RevueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\FrmMediatekTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaTekDocuments\MediaTekDocuments.csproj">
       <Project>{75DE903D-6147-4E14-BBE0-FA20CD1F9840}</Project>
       <Name>MediaTekDocuments</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

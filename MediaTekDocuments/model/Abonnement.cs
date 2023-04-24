@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace MediaTekDocuments.model
 {
+    /// <summary>
+    /// Classe métier abonnement (intègre les propriétés DateFinAbonnement et IDRevue)
+    /// Hérite de la classe métier commande.
+    /// </summary>
     public class Abonnement : Commande
     {
 

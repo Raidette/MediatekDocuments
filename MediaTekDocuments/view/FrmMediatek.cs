@@ -1462,7 +1462,7 @@ namespace MediaTekDocuments.view
 
             int nbExemplairesCommande = (int)nudExemplairesAjoutCommandeLivre.Value;
 
-            CommandeDocument commande = new CommandeDocument(idCommande,dateCommande,montantCommande,nbExemplairesCommande,idLivre,"En cours");
+            CommandeDocument commande = new CommandeDocument(idCommande,dateCommande,montantCommande,nbExemplairesCommande,idLivre,"En%20cours");
 
             controller.CreerCommande(commande);
 

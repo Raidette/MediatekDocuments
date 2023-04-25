@@ -63,7 +63,7 @@ namespace MediaTekDocuments.dal
             {
                 connectionString = GetConnectionStringByName(appConfigCredentialsPath);
                 urlApi = GetConnectionStringByName(appConfigUrlPath);
-                api = ApiRest.GetInstance("http://localhost/rest_mediatekdocuments/","admin:adminpwd");
+                api = ApiRest.GetInstance(urlApi,connectionString);
             }
             catch (Exception e)
             {
@@ -275,7 +275,7 @@ namespace MediaTekDocuments.dal
         public bool DeleteCommande(Commande commande)
         {
             IDictionary<string, string> dictCommande = new Dictionary<string, string>();
-            dictCommande["id"] = commande.Id;
+            dictCommande["Id"] = commande.Id;
 
             string jsonCommande = JsonConvert.SerializeObject(dictCommande);
 
@@ -336,7 +336,7 @@ namespace MediaTekDocuments.dal
         public bool DeleteAbonnement(Abonnement abonnement)
         {
             IDictionary<string, string> dictAbo = new Dictionary<string, string>();
-            dictAbo["Nom"] = abonnement.Id;
+            dictAbo["Id"] = abonnement.Id;
 
             String jsonAbo = JsonConvert.SerializeObject(dictAbo, new CustomDateTimeConverter());
 

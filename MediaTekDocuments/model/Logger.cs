@@ -57,10 +57,10 @@ namespace MediaTekDocuments.model
         /// </summary>
         public void startLog()
         {
-            FileStream fsStandard = new FileStream(outPath, FileMode.Append, FileAccess.Write);
+            FileStream fsStandard = new FileStream(outPath, FileMode.OpenOrCreate, FileAccess.Write);
             swOut = new StreamWriter(fsStandard);
 
-            FileStream fsErr = new FileStream(errorPath, FileMode.Append, FileAccess.Write);
+            FileStream fsErr = new FileStream(errorPath, FileMode.OpenOrCreate, FileAccess.Write);
             swErr = new StreamWriter(fsErr);
 
             Console.WriteLine("Logging started");
